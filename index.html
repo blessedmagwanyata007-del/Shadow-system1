@@ -2,29 +2,42 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Shadow System</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0">
+<meta name="theme-color" content="#08090d">
+<title>Shadow System 2.0</title>
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="icon.svg">
 <style>
-:root{--bg:#08090d;--panel:#11131a;--panel2:#171a23;--text:#f4f5f7;--muted:#8d93a1;--accent:#7c5cff;--cyan:#43d9ff;--green:#35e29a;--red:#ff5268;--line:#252936}
-*{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 70% -10%,#21194d 0,#08090d 42%);color:var(--text);font-family:Inter,system-ui,Arial,sans-serif;min-height:100vh}
-.app{max-width:900px;margin:auto;padding:22px 18px 90px}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}.brand{letter-spacing:3px;font-weight:900}.status{font-size:11px;color:var(--cyan);border:1px solid #264a59;padding:7px 10px;border-radius:20px}
-.hero{background:linear-gradient(145deg,#171423,#0e1118);border:1px solid #2a263c;border-radius:24px;padding:24px;position:relative;overflow:hidden;box-shadow:0 20px 60px #0008}
+:root{--bg:#08090d;--panel:#11131a;--panel2:#171a23;--text:#f4f5f7;--muted:#8d93a1;--accent:#7c5cff;--cyan:#43d9ff;--green:#35e29a;--red:#ff5268;--gold:#ffd166;--line:#252936}
+*{box-sizing:border-box}
+body{margin:0;background:radial-gradient(circle at 70% -10%,#21194d 0,#08090d 42%);color:var(--text);font-family:Inter,system-ui,Arial,sans-serif;min-height:100vh}
+button,input,select{font:inherit}.app{max-width:900px;margin:auto;padding:20px 16px 105px}
+.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px}.brand{letter-spacing:3px;font-weight:900}.status{font-size:10px;color:var(--cyan);border:1px solid #264a59;padding:7px 9px;border-radius:20px}
+.panel{display:none}.panel.active{display:block}
+.hero{background:linear-gradient(145deg,#171423,#0e1118);border:1px solid #2a263c;border-radius:24px;padding:22px;position:relative;overflow:hidden;box-shadow:0 20px 60px #0008}
 .hero:after{content:"";position:absolute;width:230px;height:230px;border-radius:50%;right:-80px;top:-100px;background:#7c5cff22;filter:blur(4px)}
-.kicker{font-size:11px;letter-spacing:2px;color:var(--muted)}.level{font-size:42px;font-weight:900;margin:4px 0}.sub{color:var(--muted);font-size:13px}
-.xpbar{height:9px;background:#262936;border-radius:20px;margin:16px 0 7px;overflow:hidden}.xpfill{height:100%;width:68%;background:linear-gradient(90deg,var(--accent),var(--cyan));border-radius:20px}
+.kicker{font-size:10px;letter-spacing:2px;color:var(--muted)}.level{font-size:40px;font-weight:900;margin:4px 0}.sub{color:var(--muted);font-size:13px}
+.xpbar{height:9px;background:#262936;border-radius:20px;margin:16px 0 7px;overflow:hidden}.xpfill{height:100%;width:0;background:linear-gradient(90deg,var(--accent),var(--cyan));border-radius:20px;transition:.3s}
 .xptext{display:flex;justify-content:space-between;font-size:11px;color:var(--muted)}
-.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:16px}.metric{font-size:24px;font-weight:800}.label{font-size:11px;color:var(--muted);margin-top:4px}
-.section{margin-top:26px}.sectionhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.section h2{font-size:16px;margin:0}.small{font-size:11px;color:var(--muted)}
-.quest{display:flex;align-items:center;gap:13px;background:var(--panel);border:1px solid var(--line);padding:14px;border-radius:16px;margin:9px 0;transition:.2s}.quest.done{opacity:.55;border-color:#275e4d}.icon{width:40px;height:40px;border-radius:12px;background:#1c1e28;display:grid;place-items:center;font-size:20px}.qbody{flex:1}.qname{font-weight:700;font-size:14px}.qxp{font-size:11px;color:var(--cyan);margin-top:3px}.check{width:28px;height:28px;border-radius:9px;border:1px solid #414553;background:transparent;color:white;cursor:pointer}.done .check{background:var(--green);border-color:var(--green);color:#07120e}
-button{font:inherit}.primary{border:0;background:linear-gradient(135deg,var(--accent),#5b8cff);color:white;padding:11px 14px;border-radius:12px;font-weight:800;cursor:pointer}
-.tabs{position:fixed;bottom:12px;left:50%;transform:translateX(-50%);width:min(600px,calc(100% - 30px));background:#11131aeF;border:1px solid #2a2d39;backdrop-filter:blur(14px);display:flex;justify-content:space-around;padding:8px;border-radius:18px;z-index:5}.tab{background:none;border:0;color:var(--muted);font-size:11px;padding:8px;cursor:pointer}.tab.active{color:white}.tab span{display:block;font-size:17px;margin-bottom:2px}
-.panel{display:none}.panel.active{display:block}.report{background:linear-gradient(145deg,#151321,#101218);border:1px solid #302b45;border-radius:20px;padding:18px;margin-bottom:12px}.reporttitle{font-weight:900}.bars{display:grid;gap:10px;margin-top:15px}.barrow{display:grid;grid-template-columns:75px 1fr 35px;gap:8px;align-items:center;font-size:11px;color:var(--muted)}.bar{height:7px;background:#292c35;border-radius:9px}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--cyan));border-radius:9px}.empty{text-align:center;color:var(--muted);padding:30px}
-input{width:100%;background:#0c0e13;border:1px solid var(--line);color:white;border-radius:11px;padding:11px;margin:5px 0 10px}label{font-size:11px;color:var(--muted)}
-@media(max-width:600px){.grid{grid-template-columns:1fr 1fr}.grid .card:last-child{grid-column:span 2}.level{font-size:36px}}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:12px 0}.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:15px}.metric{font-size:23px;font-weight:800}.label{font-size:10px;color:var(--muted);margin-top:4px}
+.section{margin-top:22px}.sectionhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:10px}.section h2{font-size:15px;margin:0}.small{font-size:10px;color:var(--muted)}
+.quest{display:flex;align-items:center;gap:11px;background:var(--panel);border:1px solid var(--line);padding:12px;border-radius:16px;margin:8px 0;transition:.2s}.quest.done{opacity:.55;border-color:#275e4d}.icon{width:40px;height:40px;border-radius:12px;background:#1c1e28;display:grid;place-items:center;font-size:19px}.qbody{flex:1;min-width:0}.qname{font-weight:700;font-size:13px;overflow:hidden;text-overflow:ellipsis}.qmeta{font-size:10px;color:var(--muted);margin-top:3px}.qxp{font-size:10px;color:var(--cyan);margin-top:3px}
+.check{width:29px;height:29px;border-radius:9px;border:1px solid #414553;background:transparent;color:white;cursor:pointer}.done .check{background:var(--green);border-color:var(--green);color:#07120e}
+.primary{border:0;background:linear-gradient(135deg,var(--accent),#5b8cff);color:white;padding:10px 13px;border-radius:11px;font-weight:800;cursor:pointer}.danger{background:#24131a;border:1px solid #54232d;color:#ff8a99;padding:8px 10px;border-radius:10px}
+.tabs{position:fixed;bottom:10px;left:50%;transform:translateX(-50%);width:min(620px,calc(100% - 24px));background:#11131aeF;border:1px solid #2a2d39;backdrop-filter:blur(14px);display:flex;justify-content:space-around;padding:7px;border-radius:18px;z-index:5}.tab{background:none;border:0;color:var(--muted);font-size:10px;padding:7px;cursor:pointer}.tab.active{color:white}.tab span{display:block;font-size:17px;margin-bottom:2px}
+.report{background:linear-gradient(145deg,#151321,#101218);border:1px solid #302b45;border-radius:19px;padding:16px;margin-bottom:10px}.reporttitle{font-weight:900;font-size:14px}
+.bars{display:grid;gap:9px;margin-top:13px}.barrow{display:grid;grid-template-columns:70px 1fr 30px;gap:7px;align-items:center;font-size:10px;color:var(--muted)}.bar{height:7px;background:#292c35;border-radius:9px}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--cyan));border-radius:9px}
+input,select{width:100%;background:#0c0e13;border:1px solid var(--line);color:white;border-radius:10px;padding:10px;margin:4px 0 9px}label{font-size:10px;color:var(--muted)}
+.row{display:flex;gap:8px;align-items:center}.row>*{flex:1}.mini{background:#171a23;border:1px solid var(--line);color:white;border-radius:10px;padding:9px}
+.timer{font-size:56px;font-weight:900;text-align:center;letter-spacing:2px;margin:15px 0}.timerbox{text-align:center}.timerstate{font-size:11px;color:var(--cyan);margin-bottom:8px}
+.historyrow{display:grid;grid-template-columns:70px 1fr 55px;gap:8px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line);font-size:11px}.historyrow:last-child{border:0}.dot{height:7px;background:#292c35;border-radius:9px}.dot i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--cyan));border-radius:9px}
+.badges{display:grid;grid-template-columns:repeat(2,1fr);gap:9px}.badge{background:#11131a;border:1px solid var(--line);border-radius:15px;padding:12px}.badge.locked{opacity:.35}.badge b{display:block;font-size:12px;margin-bottom:3px}.badge span{font-size:10px;color:var(--muted)}
+.toast{position:fixed;top:16px;left:50%;transform:translate(-50%,-20px);opacity:0;background:#171a23;border:1px solid #34394a;padding:10px 14px;border-radius:12px;font-size:11px;z-index:20;transition:.25s;pointer-events:none}.toast.show{transform:translate(-50%,0);opacity:1}
+@media(max-width:600px){.grid{grid-template-columns:1fr 1fr}.grid .card:last-child{grid-column:span 2}.level{font-size:35px}.badges{grid-template-columns:1fr 1fr}}
 </style>
-<link rel="manifest" href="manifest.json"><meta name="theme-color" content="#08090d"><link rel="apple-touch-icon" href="icon.svg">
 </head>
 <body>
+<div class="toast" id="toast"></div>
 <div class="app">
 <div class="top"><div class="brand">SHADOW SYSTEM</div><div class="status">● SYSTEM ONLINE</div></div>
 
@@ -32,14 +45,18 @@ input{width:100%;background:#0c0e13;border:1px solid var(--line);color:white;bor
 <section class="hero">
 <div class="kicker">PLAYER STATUS</div><div class="level">LEVEL <span id="level">1</span></div>
 <div class="sub">The only opponent is yesterday's version of you.</div>
-<div class="xpbar"><div class="xpfill" id="xpfill"></div></div><div class="xptext"><span id="xp">0 XP</span><span id="next">100 XP</span></div>
+<div class="xpbar"><div class="xpfill" id="xpfill"></div></div>
+<div class="xptext"><span id="xp">0 XP</span><span id="next">1000 XP</span></div>
 </section>
 <div class="grid">
 <div class="card"><div class="metric" id="streak">0</div><div class="label">DAY STREAK 🔥</div></div>
 <div class="card"><div class="metric" id="today">0%</div><div class="label">TODAY'S COMPLETION</div></div>
 <div class="card"><div class="metric" id="totalxp">0</div><div class="label">TOTAL XP</div></div>
 </div>
-<div class="section"><div class="sectionhead"><h2>DAILY QUESTS</h2><span class="small" id="date"></span></div><div id="quests"></div></div>
+<div class="section">
+<div class="sectionhead"><h2>DAILY QUESTS</h2><span class="small" id="date"></span></div>
+<div id="quests"></div>
+</div>
 </div>
 
 <div id="stats" class="panel">
@@ -53,21 +70,45 @@ input{width:100%;background:#0c0e13;border:1px solid var(--line);color:white;bor
 <div class="barrow"><span>Strength</span><div class="bar"><i id="bs"></i></div><b id="vs">0</b></div>
 <div class="barrow"><span>Focus</span><div class="bar"><i id="bf"></i></div><b id="vf">0</b></div>
 <div class="barrow"><span>Discipline</span><div class="bar"><i id="bd"></i></div><b id="vd">0</b></div>
-</div></div></div>
+</div></div>
+<div class="report"><div class="reporttitle">ACHIEVEMENTS 🏆</div><div class="badges" id="badges"></div></div>
+</div>
 </div>
 
 <div id="questsPanel" class="panel">
-<div class="section"><div class="sectionhead"><h2>QUEST MANAGEMENT</h2></div>
-<div class="card"><label>Quest name</label><input id="newname" placeholder="e.g. Read 20 pages"><label>XP reward</label><input id="newxp" type="number" value="100"><button class="primary" onclick="addQuest()">+ CREATE QUEST</button></div>
-<div id="allquests" style="margin-top:14px"></div></div>
+<div class="section"><div class="sectionhead"><h2>QUEST MANAGEMENT</h2><span class="small">BUILD YOUR DAY</span></div>
+<div class="card">
+<label>Quest name</label><input id="newname" placeholder="e.g. Read 20 pages">
+<div class="row"><div><label>XP reward</label><input id="newxp" type="number" value="100" min="1"></div>
+<div><label>Category</label><select id="newcat"><option value="strength">Gym / Body</option><option value="focus">Study / Focus</option><option value="discipline">Discipline</option></select></div></div>
+<button class="primary" onclick="addQuest()">+ CREATE QUEST</button>
+</div>
+<div id="allquests" style="margin-top:12px"></div>
+</div>
+</div>
+
+<div id="timerPanel" class="panel">
+<div class="section"><div class="sectionhead"><h2>DEEP WORK TIMER</h2><span class="small">FOCUS MODE</span></div>
+<div class="report timerbox">
+<div class="timerstate" id="timerState">READY</div>
+<div class="timer" id="timer">25:00</div>
+<div class="row"><button class="primary" onclick="startTimer()">START</button><button class="mini" onclick="pauseTimer()">PAUSE</button><button class="mini" onclick="resetTimer()">RESET</button></div>
+<p class="small">Finish a session to earn 50 XP and +3 Focus.</p>
+</div>
+<div class="card"><label>Session length (minutes)</label><input id="timerMinutes" type="number" min="1" max="120" value="25" onchange="resetTimer()"></div>
+</div>
 </div>
 
 <div id="reports" class="panel">
-<div class="section"><div class="sectionhead"><h2>SYSTEM REPORTS</h2><span class="small">10 / 20 / 30 DAYS</span></div>
-<div class="report"><div class="reporttitle">10-DAY REPORT</div><p class="small">Complete 10 days of tracked activity to unlock your first performance report.</p></div>
-<div class="report"><div class="reporttitle">20-DAY REPORT</div><p class="small">Your consistency trends and stat growth will appear here.</p></div>
-<div class="report"><div class="reporttitle">30-DAY BOSS REPORT 👑</div><p class="small">Your full monthly progression, strongest category, streak history and XP earned will appear here.</p></div>
+<div class="section">
+<div class="sectionhead"><h2>SYSTEM REPORTS</h2><span class="small">YOUR HISTORY</span></div>
+<div class="report"><div class="reporttitle">7-DAY ACTIVITY</div><div id="history"></div></div>
+<div class="report"><div class="reporttitle">PROGRESSION</div><p class="small" id="reportText"></p></div>
+<div class="report"><div class="reporttitle">BACKUP YOUR SYSTEM 💾</div><p class="small">Export your progress before changing phones or clearing browser data.</p>
+<div class="row"><button class="primary" onclick="exportData()">EXPORT</button><button class="mini" onclick="document.getElementById('importFile').click()">IMPORT</button></div>
+<input id="importFile" type="file" accept=".json" style="display:none" onchange="importData(event)">
 </div>
+<div class="report"><div class="reporttitle">DANGER ZONE</div><p class="small">This permanently clears local progress on this device.</p><button class="danger" onclick="resetAll()">RESET ALL DATA</button></div>
 </div>
 </div>
 
@@ -75,7 +116,9 @@ input{width:100%;background:#0c0e13;border:1px solid var(--line);color:white;bor
 <button class="tab active" onclick="show('system',this)"><span>⚔️</span>System</button>
 <button class="tab" onclick="show('stats',this)"><span>📊</span>Stats</button>
 <button class="tab" onclick="show('questsPanel',this)"><span>🎯</span>Quests</button>
+<button class="tab" onclick="show('timerPanel',this)"><span>⏱️</span>Focus</button>
 <button class="tab" onclick="show('reports',this)"><span>👑</span>Reports</button>
+</div>
 </div>
 
 <script>
@@ -85,36 +128,164 @@ const defaults=[
 {id:3,name:"Study",xp:100,icon:"📚",stat:"focus"},
 {id:4,name:"Stay Clean",xp:200,icon:"🛡️",stat:"discipline"}
 ];
-let data=JSON.parse(localStorage.getItem("shadowData")||"null")||{quests:defaults,done:{},xp:0,stats:{strength:0,focus:0,discipline:0},streak:0,lastDay:""};
+const old=JSON.parse(localStorage.getItem("shadowData")||"null");
+let data=old||{quests:defaults,done:{},xp:0,stats:{strength:0,focus:0,discipline:0},streak:0,lastDay:""};
+data.quests=data.quests||defaults;
+data.done=data.done||{};
+data.xp=Number(data.xp)||0;
+data.stats=Object.assign({strength:0,focus:0,discipline:0},data.stats||{});
+data.history=data.history||{};
+data.sessions=Number(data.sessions)||0;
+
 function save(){localStorage.setItem("shadowData",JSON.stringify(data));render()}
-function key(){return new Date().toISOString().slice(0,10)}
+function dayKey(d=new Date()){let y=d.getFullYear(),m=String(d.getMonth()+1).padStart(2,"0"),day=String(d.getDate()).padStart(2,"0");return `${y}-${m}-${day}`}
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#039;"}[c]))}
+function completedToday(){return data.done[dayKey()]||[]}
+function iconFor(stat){return stat==="strength"?"💪":stat==="focus"?"🧠":"🛡️"}
+
+function rebuildHistory(){
+  Object.keys(data.done).forEach(k=>{
+    const ids=data.done[k]||[];
+    if(!data.history[k]) data.history[k]={xp:0,completed:0};
+    data.history[k].completed=ids.length;
+    data.history[k].xp=ids.reduce((s,id)=>s+(data.quests.find(q=>q.id===id)?.xp||0),0);
+  });
+}
+function calcStreak(){
+  let count=0,d=new Date();
+  if(!(data.done[dayKey(d)]||[]).length)d.setDate(d.getDate()-1);
+  while((data.done[dayKey(d)]||[]).length){count++;d.setDate(d.getDate()-1)}
+  return count;
+}
+function achievements(){
+  const days=calcStreak(),xp=data.xp,sessions=data.sessions;
+  return [
+   ["⚔️","First Quest",Object.values(data.done).some(x=>x.length),"Complete your first quest"],
+   ["🔥","7 Day Warrior",days>=7,"Reach a 7-day streak"],
+   ["🏆","1000 XP",xp>=1000,"Earn 1,000 total XP"],
+   ["👑","Level 5",Math.floor(xp/1000)+1>=5,"Reach Level 5"],
+   ["🧠","Focus Master",sessions>=5,"Finish 5 focus sessions"],
+   ["💪","Iron Discipline",(data.stats.strength||0)>=50,"Reach 50 Strength"],
+   ["🎯","Consistency",(Object.values(data.done).filter(x=>x.length).length)>=10,"Be active on 10 days"]
+  ];
+}
 function render(){
-document.getElementById("date").textContent=new Date().toLocaleDateString(undefined,{weekday:"short",month:"short",day:"numeric"});
-let k=key();let done=data.done[k]||[];let earned=done.reduce((s,id)=>s+(data.quests.find(q=>q.id===id)?.xp||0),0);
-let pct=data.quests.length?Math.round(done.length/data.quests.length*100):0;
-let level=Math.floor(data.xp/1000)+1, within=data.xp%1000;
-document.getElementById("level").textContent=level;document.getElementById("xp").textContent=within+" XP";document.getElementById("next").textContent="1000 XP";
-document.getElementById("xpfill").style.width=(within/1000*100)+"%";document.getElementById("totalxp").textContent=data.xp;document.getElementById("today").textContent=pct+"%";document.getElementById("streak").textContent=data.streak;
-["strength","focus","discipline"].forEach(s=>{document.getElementById(s).textContent=data.stats[s];document.getElementById("b"+s[0]).style.width=Math.min(data.stats[s],100)+"%";document.getElementById("v"+s[0]).textContent=data.stats[s]});
-document.getElementById("quests").innerHTML=data.quests.map(q=>`<div class="quest ${done.includes(q.id)?"done":""}"><div class="icon">${q.icon||"⚔️"}</div><div class="qbody"><div class="qname">${q.name}</div><div class="qxp">+${q.xp} XP</div></div><button class="check" onclick="toggle(${q.id})">${done.includes(q.id)?"✓":"+"}</button></div>`).join("");
-document.getElementById("allquests").innerHTML=data.quests.map(q=>`<div class="quest"><div class="icon">${q.icon||"⚔️"}</div><div class="qbody"><div class="qname">${q.name}</div><div class="qxp">+${q.xp} XP</div></div><button class="check" onclick="removeQuest(${q.id})">×</button></div>`).join("");
+  rebuildHistory();
+  const k=dayKey(),done=completedToday(),level=Math.floor(data.xp/1000)+1,within=data.xp%1000;
+  const pct=data.quests.length?Math.round(done.length/data.quests.length*100):0;
+  document.getElementById("date").textContent=new Date().toLocaleDateString(undefined,{weekday:"short",month:"short",day:"numeric"});
+  document.getElementById("level").textContent=level;
+  document.getElementById("xp").textContent=within+" XP";
+  document.getElementById("next").textContent="1000 XP";
+  document.getElementById("xpfill").style.width=(within/1000*100)+"%";
+  document.getElementById("totalxp").textContent=data.xp;
+  document.getElementById("today").textContent=pct+"%";
+  document.getElementById("streak").textContent=calcStreak();
+
+  ["strength","focus","discipline"].forEach(s=>{
+    document.getElementById(s).textContent=data.stats[s]||0;
+    const letter=s[0]; document.getElementById("b"+letter).style.width=Math.min(data.stats[s]||0,100)+"%";
+    document.getElementById("v"+letter).textContent=data.stats[s]||0;
+  });
+
+  document.getElementById("quests").innerHTML=data.quests.length?data.quests.map(q=>{
+    const is=done.includes(q.id);
+    return `<div class="quest ${is?"done":""}"><div class="icon">${q.icon||iconFor(q.stat)}</div><div class="qbody"><div class="qname">${esc(q.name)}</div><div class="qmeta">${q.stat==="strength"?"BODY":q.stat==="focus"?"FOCUS":"DISCIPLINE"}</div><div class="qxp">+${q.xp} XP</div></div><button class="check" onclick="toggle(${q.id})">${is?"✓":"+"}</button></div>`;
+  }).join(""):"<div class='empty'>Create your first quest.</div>";
+
+  document.getElementById("allquests").innerHTML=data.quests.map(q=>
+    `<div class="quest"><div class="icon">${q.icon||iconFor(q.stat)}</div><div class="qbody"><div class="qname">${esc(q.name)}</div><div class="qmeta">${q.stat.toUpperCase()} · +${q.xp} XP</div></div><button class="check" onclick="removeQuest(${q.id})">×</button></div>`).join("");
+
+  document.getElementById("badges").innerHTML=achievements().map(a=>
+    `<div class="badge ${a[2]?"":"locked"}"><b>${a[0]} ${a[1]}</b><span>${a[2]?"UNLOCKED":"🔒 "+a[3]}</span></div>`).join("");
+
+  renderHistory();
 }
 function toggle(id){
-let k=key();data.done[k] ||= [];let i=data.done[k].indexOf(id);let q=data.quests.find(x=>x.id===id);
-if(i<0){data.done[k].push(id);data.xp+=q.xp;data.stats[q.stat]=(data.stats[q.stat]||0)+Math.max(1,Math.round(q.xp/20));}
-else{data.done[k].splice(i,1);data.xp=Math.max(0,data.xp-q.xp);data.stats[q.stat]=Math.max(0,(data.stats[q.stat]||0)-Math.max(1,Math.round(q.xp/20)));}
-updateStreak();save();
+  const k=dayKey();data.done[k] ||= [];
+  const i=data.done[k].indexOf(id),q=data.quests.find(x=>x.id===id);
+  if(!q)return;
+  const stat=q.stat||"discipline",gain=Math.max(1,Math.round(q.xp/20));
+  if(i<0){
+    data.done[k].push(id);data.xp+=q.xp;data.stats[stat]=(data.stats[stat]||0)+gain;
+    toast("Quest complete! +"+q.xp+" XP ⚡");
+  }else{
+    data.done[k].splice(i,1);data.xp=Math.max(0,data.xp-q.xp);data.stats[stat]=Math.max(0,(data.stats[stat]||0)-gain);
+  }
+  data.history[k]={completed:data.done[k].length,xp:data.done[k].reduce((s,x)=>s+(data.quests.find(q=>q.id===x)?.xp||0),0)};
+  save();
 }
-function updateStreak(){let k=key(),y=new Date();y.setDate(y.getDate()-1);let prev=y.toISOString().slice(0,10);if((data.done[k]||[]).length && data.lastDay!==k){data.streak=(data.lastDay===prev)?data.streak+1:1;data.lastDay=k}}
-function addQuest(){let n=document.getElementById("newname").value.trim(),x=Number(document.getElementById("newxp").value)||100;if(!n)return;data.quests.push({id:Date.now(),name:n,xp:x,icon:"⚔️",stat:"discipline"});document.getElementById("newname").value="";save()}
-function removeQuest(id){data.quests=data.quests.filter(q=>q.id!==id);save()}
-function show(id,btn){document.querySelectorAll(".panel").forEach(x=>x.classList.remove("active"));document.getElementById(id).classList.add("active");document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));btn.classList.add("active")}
-render();
-</script>
-<script>
-if ("serviceWorker" in navigator) {
-  window.addEventListener("load", () => navigator.serviceWorker.register("sw.js"));
+function addQuest(){
+  const n=document.getElementById("newname").value.trim(),x=Math.max(1,Number(document.getElementById("newxp").value)||100),stat=document.getElementById("newcat").value;
+  if(!n)return toast("Enter a quest name.");
+  data.quests.push({id:Date.now(),name:n,xp:x,icon:iconFor(stat),stat});
+  document.getElementById("newname").value="";save();toast("Quest created 🎯");
 }
+function removeQuest(id){
+  if(!confirm("Remove this quest? Existing XP already earned will stay."))return;
+  data.quests=data.quests.filter(q=>q.id!==id);
+  Object.keys(data.done).forEach(k=>data.done[k]=data.done[k].filter(x=>x!==id));
+  save();
+}
+function show(id,btn){
+  document.querySelectorAll(".panel").forEach(x=>x.classList.remove("active"));
+  document.getElementById(id).classList.add("active");
+  document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));btn.classList.add("active");
+  if(id==="reports")renderHistory();
+}
+function renderHistory(){
+  const box=document.getElementById("history"),today=new Date(),days=[];
+  for(let i=6;i>=0;i--){let d=new Date(today);d.setDate(today.getDate()-i);days.push(d)}
+  const vals=days.map(d=>data.history[dayKey(d)]?.xp||0),max=Math.max(1,...vals);
+  box.innerHTML=days.map((d,i)=>{
+    const k=dayKey(d),h=data.history[k]||{xp:0,completed:0},label=i===6?"Today":d.toLocaleDateString(undefined,{weekday:"short"});
+    return `<div class="historyrow"><span>${label}</span><div class="dot"><i style="width:${h.xp/max*100}%"></i></div><b>${h.xp} XP</b></div>`;
+  }).join("");
+  const active=Object.values(data.done).filter(x=>x.length).length;
+  document.getElementById("reportText").textContent=`You have earned ${data.xp} total XP, reached Level ${Math.floor(data.xp/1000)+1}, completed activity on ${active} day${active===1?"":"s"}, and finished ${data.sessions} focus session${data.sessions===1?"":"s"}. Your current streak is ${calcStreak()} day${calcStreak()===1?"":"s"}.`;
+}
+
+/* Focus timer */
+let timerSeconds=1500,timerInterval=null;
+function resetTimer(){
+  clearInterval(timerInterval);timerInterval=null;
+  const m=Math.max(1,Math.min(120,Number(document.getElementById("timerMinutes").value)||25));
+  timerSeconds=m*60;document.getElementById("timerState").textContent="READY";paintTimer();
+}
+function paintTimer(){let m=Math.floor(timerSeconds/60),s=timerSeconds%60;document.getElementById("timer").textContent=String(m).padStart(2,"0")+":"+String(s).padStart(2,"0")}
+function startTimer(){
+  if(timerInterval)return;
+  document.getElementById("timerState").textContent="FOCUSING...";
+  timerInterval=setInterval(()=>{
+    timerSeconds--;paintTimer();
+    if(timerSeconds<=0){clearInterval(timerInterval);timerInterval=null;finishTimer()}
+  },1000);
+}
+function pauseTimer(){clearInterval(timerInterval);timerInterval=null;document.getElementById("timerState").textContent="PAUSED"}
+function finishTimer(){
+  data.xp+=50;data.stats.focus=(data.stats.focus||0)+3;data.sessions++;
+  const k=dayKey();data.history[k] ||= {xp:0,completed:0};data.history[k].xp+=50;
+  document.getElementById("timerState").textContent="SESSION COMPLETE!";
+  save();toast("Focus session complete! +50 XP 🧠");resetTimer();
+}
+
+/* Backup */
+function exportData(){
+  const blob=new Blob([JSON.stringify(data,null,2)],{type:"application/json"}),a=document.createElement("a");
+  a.href=URL.createObjectURL(blob);a.download="shadow-system-backup.json";a.click();URL.revokeObjectURL(a.href);
+}
+function importData(e){
+  const file=e.target.files[0];if(!file)return;
+  const r=new FileReader();r.onload=()=>{try{const x=JSON.parse(r.result);if(!x.quests||x.xp===undefined)throw Error();data=x;data.done=data.done||{};data.stats=Object.assign({strength:0,focus:0,discipline:0},data.stats||{});data.history=data.history||{};data.sessions=Number(data.sessions)||0;save();toast("Backup imported ✓")}catch(err){toast("Invalid backup file.")}};r.readAsText(file);e.target.value="";
+}
+function resetAll(){
+  if(!confirm("RESET ALL SHADOW SYSTEM DATA? This cannot be undone."))return;
+  localStorage.removeItem("shadowData");location.reload();
+}
+function toast(msg){const t=document.getElementById("toast");t.textContent=msg;t.classList.add("show");setTimeout(()=>t.classList.remove("show"),1800)}
+
+rebuildHistory();render();resetTimer();
+if("serviceWorker"in navigator)window.addEventListener("load",()=>navigator.serviceWorker.register("sw.js"));
 </script>
 </body>
 </html>
