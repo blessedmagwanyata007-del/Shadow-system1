@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Shadow System</title>
+<style>
+:root{--bg:#08090d;--panel:#11131a;--panel2:#171a23;--text:#f4f5f7;--muted:#8d93a1;--accent:#7c5cff;--cyan:#43d9ff;--green:#35e29a;--red:#ff5268;--line:#252936}
+*{box-sizing:border-box} body{margin:0;background:radial-gradient(circle at 70% -10%,#21194d 0,#08090d 42%);color:var(--text);font-family:Inter,system-ui,Arial,sans-serif;min-height:100vh}
+.app{max-width:900px;margin:auto;padding:22px 18px 90px}.top{display:flex;justify-content:space-between;align-items:center;margin-bottom:20px}.brand{letter-spacing:3px;font-weight:900}.status{font-size:11px;color:var(--cyan);border:1px solid #264a59;padding:7px 10px;border-radius:20px}
+.hero{background:linear-gradient(145deg,#171423,#0e1118);border:1px solid #2a263c;border-radius:24px;padding:24px;position:relative;overflow:hidden;box-shadow:0 20px 60px #0008}
+.hero:after{content:"";position:absolute;width:230px;height:230px;border-radius:50%;right:-80px;top:-100px;background:#7c5cff22;filter:blur(4px)}
+.kicker{font-size:11px;letter-spacing:2px;color:var(--muted)}.level{font-size:42px;font-weight:900;margin:4px 0}.sub{color:var(--muted);font-size:13px}
+.xpbar{height:9px;background:#262936;border-radius:20px;margin:16px 0 7px;overflow:hidden}.xpfill{height:100%;width:68%;background:linear-gradient(90deg,var(--accent),var(--cyan));border-radius:20px}
+.xptext{display:flex;justify-content:space-between;font-size:11px;color:var(--muted)}
+.grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:14px 0}.card{background:var(--panel);border:1px solid var(--line);border-radius:18px;padding:16px}.metric{font-size:24px;font-weight:800}.label{font-size:11px;color:var(--muted);margin-top:4px}
+.section{margin-top:26px}.sectionhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}.section h2{font-size:16px;margin:0}.small{font-size:11px;color:var(--muted)}
+.quest{display:flex;align-items:center;gap:13px;background:var(--panel);border:1px solid var(--line);padding:14px;border-radius:16px;margin:9px 0;transition:.2s}.quest.done{opacity:.55;border-color:#275e4d}.icon{width:40px;height:40px;border-radius:12px;background:#1c1e28;display:grid;place-items:center;font-size:20px}.qbody{flex:1}.qname{font-weight:700;font-size:14px}.qxp{font-size:11px;color:var(--cyan);margin-top:3px}.check{width:28px;height:28px;border-radius:9px;border:1px solid #414553;background:transparent;color:white;cursor:pointer}.done .check{background:var(--green);border-color:var(--green);color:#07120e}
+button{font:inherit}.primary{border:0;background:linear-gradient(135deg,var(--accent),#5b8cff);color:white;padding:11px 14px;border-radius:12px;font-weight:800;cursor:pointer}
+.tabs{position:fixed;bottom:12px;left:50%;transform:translateX(-50%);width:min(600px,calc(100% - 30px));background:#11131aeF;border:1px solid #2a2d39;backdrop-filter:blur(14px);display:flex;justify-content:space-around;padding:8px;border-radius:18px;z-index:5}.tab{background:none;border:0;color:var(--muted);font-size:11px;padding:8px;cursor:pointer}.tab.active{color:white}.tab span{display:block;font-size:17px;margin-bottom:2px}
+.panel{display:none}.panel.active{display:block}.report{background:linear-gradient(145deg,#151321,#101218);border:1px solid #302b45;border-radius:20px;padding:18px;margin-bottom:12px}.reporttitle{font-weight:900}.bars{display:grid;gap:10px;margin-top:15px}.barrow{display:grid;grid-template-columns:75px 1fr 35px;gap:8px;align-items:center;font-size:11px;color:var(--muted)}.bar{height:7px;background:#292c35;border-radius:9px}.bar i{display:block;height:100%;background:linear-gradient(90deg,var(--accent),var(--cyan));border-radius:9px}.empty{text-align:center;color:var(--muted);padding:30px}
+input{width:100%;background:#0c0e13;border:1px solid var(--line);color:white;border-radius:11px;padding:11px;margin:5px 0 10px}label{font-size:11px;color:var(--muted)}
+@media(max-width:600px){.grid{grid-template-columns:1fr 1fr}.grid .card:last-child{grid-column:span 2}.level{font-size:36px}}
+</style>
+<link rel="manifest" href="manifest.json"><meta name="theme-color" content="#08090d"><link rel="apple-touch-icon" href="icon.svg">
+</head>
+<body>
+<div class="app">
+<div class="top"><div class="brand">SHADOW SYSTEM</div><div class="status">● SYSTEM ONLINE</div></div>
+
+<div id="system" class="panel active">
+<section class="hero">
+<div class="kicker">PLAYER STATUS</div><div class="level">LEVEL <span id="level">1</span></div>
+<div class="sub">The only opponent is yesterday's version of you.</div>
+<div class="xpbar"><div class="xpfill" id="xpfill"></div></div><div class="xptext"><span id="xp">0 XP</span><span id="next">100 XP</span></div>
+</section>
+<div class="grid">
+<div class="card"><div class="metric" id="streak">0</div><div class="label">DAY STREAK 🔥</div></div>
+<div class="card"><div class="metric" id="today">0%</div><div class="label">TODAY'S COMPLETION</div></div>
+<div class="card"><div class="metric" id="totalxp">0</div><div class="label">TOTAL XP</div></div>
+</div>
+<div class="section"><div class="sectionhead"><h2>DAILY QUESTS</h2><span class="small" id="date"></span></div><div id="quests"></div></div>
+</div>
+
+<div id="stats" class="panel">
+<div class="section"><div class="sectionhead"><h2>PLAYER STATS</h2><span class="small">LIVE</span></div>
+<div class="grid">
+<div class="card"><div class="metric" id="strength">0</div><div class="label">STRENGTH</div></div>
+<div class="card"><div class="metric" id="focus">0</div><div class="label">FOCUS</div></div>
+<div class="card"><div class="metric" id="discipline">0</div><div class="label">DISCIPLINE</div></div>
+</div>
+<div class="report"><div class="reporttitle">SYSTEM ANALYTICS</div><div class="bars">
+<div class="barrow"><span>Strength</span><div class="bar"><i id="bs"></i></div><b id="vs">0</b></div>
+<div class="barrow"><span>Focus</span><div class="bar"><i id="bf"></i></div><b id="vf">0</b></div>
+<div class="barrow"><span>Discipline</span><div class="bar"><i id="bd"></i></div><b id="vd">0</b></div>
+</div></div></div>
+</div>
+
+<div id="questsPanel" class="panel">
+<div class="section"><div class="sectionhead"><h2>QUEST MANAGEMENT</h2></div>
+<div class="card"><label>Quest name</label><input id="newname" placeholder="e.g. Read 20 pages"><label>XP reward</label><input id="newxp" type="number" value="100"><button class="primary" onclick="addQuest()">+ CREATE QUEST</button></div>
+<div id="allquests" style="margin-top:14px"></div></div>
+</div>
+
+<div id="reports" class="panel">
+<div class="section"><div class="sectionhead"><h2>SYSTEM REPORTS</h2><span class="small">10 / 20 / 30 DAYS</span></div>
+<div class="report"><div class="reporttitle">10-DAY REPORT</div><p class="small">Complete 10 days of tracked activity to unlock your first performance report.</p></div>
+<div class="report"><div class="reporttitle">20-DAY REPORT</div><p class="small">Your consistency trends and stat growth will appear here.</p></div>
+<div class="report"><div class="reporttitle">30-DAY BOSS REPORT 👑</div><p class="small">Your full monthly progression, strongest category, streak history and XP earned will appear here.</p></div>
+</div>
+</div>
+</div>
+
+<div class="tabs">
+<button class="tab active" onclick="show('system',this)"><span>⚔️</span>System</button>
+<button class="tab" onclick="show('stats',this)"><span>📊</span>Stats</button>
+<button class="tab" onclick="show('questsPanel',this)"><span>🎯</span>Quests</button>
+<button class="tab" onclick="show('reports',this)"><span>👑</span>Reports</button>
+</div>
+
+<script>
+const defaults=[
+{id:1,name:"Gym / Exercise",xp:100,icon:"💪",stat:"strength"},
+{id:2,name:"Deep Work",xp:150,icon:"🧠",stat:"focus"},
+{id:3,name:"Study",xp:100,icon:"📚",stat:"focus"},
+{id:4,name:"Stay Clean",xp:200,icon:"🛡️",stat:"discipline"}
+];
+let data=JSON.parse(localStorage.getItem("shadowData")||"null")||{quests:defaults,done:{},xp:0,stats:{strength:0,focus:0,discipline:0},streak:0,lastDay:""};
+function save(){localStorage.setItem("shadowData",JSON.stringify(data));render()}
+function key(){return new Date().toISOString().slice(0,10)}
+function render(){
+document.getElementById("date").textContent=new Date().toLocaleDateString(undefined,{weekday:"short",month:"short",day:"numeric"});
+let k=key();let done=data.done[k]||[];let earned=done.reduce((s,id)=>s+(data.quests.find(q=>q.id===id)?.xp||0),0);
+let pct=data.quests.length?Math.round(done.length/data.quests.length*100):0;
+let level=Math.floor(data.xp/1000)+1, within=data.xp%1000;
+document.getElementById("level").textContent=level;document.getElementById("xp").textContent=within+" XP";document.getElementById("next").textContent="1000 XP";
+document.getElementById("xpfill").style.width=(within/1000*100)+"%";document.getElementById("totalxp").textContent=data.xp;document.getElementById("today").textContent=pct+"%";document.getElementById("streak").textContent=data.streak;
+["strength","focus","discipline"].forEach(s=>{document.getElementById(s).textContent=data.stats[s];document.getElementById("b"+s[0]).style.width=Math.min(data.stats[s],100)+"%";document.getElementById("v"+s[0]).textContent=data.stats[s]});
+document.getElementById("quests").innerHTML=data.quests.map(q=>`<div class="quest ${done.includes(q.id)?"done":""}"><div class="icon">${q.icon||"⚔️"}</div><div class="qbody"><div class="qname">${q.name}</div><div class="qxp">+${q.xp} XP</div></div><button class="check" onclick="toggle(${q.id})">${done.includes(q.id)?"✓":"+"}</button></div>`).join("");
+document.getElementById("allquests").innerHTML=data.quests.map(q=>`<div class="quest"><div class="icon">${q.icon||"⚔️"}</div><div class="qbody"><div class="qname">${q.name}</div><div class="qxp">+${q.xp} XP</div></div><button class="check" onclick="removeQuest(${q.id})">×</button></div>`).join("");
+}
+function toggle(id){
+let k=key();data.done[k] ||= [];let i=data.done[k].indexOf(id);let q=data.quests.find(x=>x.id===id);
+if(i<0){data.done[k].push(id);data.xp+=q.xp;data.stats[q.stat]=(data.stats[q.stat]||0)+Math.max(1,Math.round(q.xp/20));}
+else{data.done[k].splice(i,1);data.xp=Math.max(0,data.xp-q.xp);data.stats[q.stat]=Math.max(0,(data.stats[q.stat]||0)-Math.max(1,Math.round(q.xp/20)));}
+updateStreak();save();
+}
+function updateStreak(){let k=key(),y=new Date();y.setDate(y.getDate()-1);let prev=y.toISOString().slice(0,10);if((data.done[k]||[]).length && data.lastDay!==k){data.streak=(data.lastDay===prev)?data.streak+1:1;data.lastDay=k}}
+function addQuest(){let n=document.getElementById("newname").value.trim(),x=Number(document.getElementById("newxp").value)||100;if(!n)return;data.quests.push({id:Date.now(),name:n,xp:x,icon:"⚔️",stat:"discipline"});document.getElementById("newname").value="";save()}
+function removeQuest(id){data.quests=data.quests.filter(q=>q.id!==id);save()}
+function show(id,btn){document.querySelectorAll(".panel").forEach(x=>x.classList.remove("active"));document.getElementById(id).classList.add("active");document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));btn.classList.add("active")}
+render();
+</script>
+<script>
+if ("serviceWorker" in navigator) {
+  window.addEventListener("load", () => navigator.serviceWorker.register("sw.js"));
+}
+</script>
+</body>
+</html>
